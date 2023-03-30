@@ -24,6 +24,7 @@ public class UserController {
         return userService.save(user);
     }
 
+    //查询所有数据
     @GetMapping
     public List<User> getAll(){
         return userMapper.findAll();

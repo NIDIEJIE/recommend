@@ -2,7 +2,6 @@ package com.linmj.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,12 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class History {
     @TableId(type = IdType.AUTO)
     private Integer id;
-    private String username;
-    //防止前端看到密码
-    @JsonIgnore
-    private String password;
-    private String avatarurl;
+    private Integer strategy_id;
+    private Integer user_id;
+    private String linename;
+    private String date;
 }
+
