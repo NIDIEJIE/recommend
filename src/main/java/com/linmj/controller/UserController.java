@@ -1,5 +1,8 @@
 package com.linmj.controller;
 
+import cn.hutool.core.util.StrUtil;
+import com.linmj.common.Code;
+import com.linmj.common.Result;
 import com.linmj.domain.User;
 import com.linmj.mapper.UserMapper;
 import com.linmj.service.UserService;
@@ -18,6 +21,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PostMapping("/login")
+    public Result login(@RequestBody User user) {
+        String username = user.getUsername();
+        String password = user.getPassword();
+        if (StrUtil.isBlank(username) || StrUtil.isBlank(password)) {
+            System.out.println(user);
+            return Result.error(Code.CODE_400, "参数错误");
+        }
+        User out = userService.login(user);
+        return Result.success(out);
+    }
     // 新增和修改
     @PostMapping
     public Integer save(@RequestBody User user) {
@@ -34,4 +48,5 @@ public class UserController {
     public Integer delete(@PathVariable Integer id) {
         return userMapper.deleteById(id);
     }
+
 }
