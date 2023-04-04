@@ -2,6 +2,7 @@ package com.linmj.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.linmj.common.Code;
+import com.linmj.controller.dto.UserPasswordDTO;
 import com.linmj.domain.User;
 import com.linmj.exception.ServiceException;
 import com.linmj.mapper.UserMapper;
@@ -46,5 +47,12 @@ public class UserService {
 
     public User getById(Integer id) {
         return userMapper.selectById(id);
+    }
+
+    public void updatePassword(UserPasswordDTO userPasswordDTO) {
+        int update = userMapper.updatePassword(userPasswordDTO);
+        if (update < 1) {
+            throw new ServiceException(Code.CODE_600, "密码错误");
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.linmj.controller;
 import cn.hutool.core.util.StrUtil;
 import com.linmj.common.Code;
 import com.linmj.common.Result;
+import com.linmj.controller.dto.UserPasswordDTO;
 import com.linmj.domain.User;
 import com.linmj.mapper.UserMapper;
 import com.linmj.service.UserService;
@@ -38,15 +39,24 @@ public class UserController {
         return userService.save(user);
     }
 
-    //查询所有数据
-    @GetMapping
-    public List<User> getAll(){
-        return userMapper.findAll();
+    //查询某个用户
+    @GetMapping("/{id}")
+    public Result getUser(@PathVariable Integer id){
+        User data = userMapper.selectById(id);
+        return Result.success(data);
     }
 
     @DeleteMapping("/{id}")
     public Integer delete(@PathVariable Integer id) {
         return userMapper.deleteById(id);
     }
+
+    //修改密码
+    @PostMapping("/password")   //
+    public Result password(@RequestBody UserPasswordDTO userPasswordDTO) {
+        userService.updatePassword(userPasswordDTO);
+        return Result.success();
+    }
+
 
 }
