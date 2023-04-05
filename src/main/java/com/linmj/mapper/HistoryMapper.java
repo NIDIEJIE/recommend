@@ -24,4 +24,5 @@ public interface HistoryMapper extends BaseMapper<History> {
 
     @Select("select count(*) from history")
     Integer selectTotal();
+
 }

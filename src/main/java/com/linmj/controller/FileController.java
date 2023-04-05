@@ -63,7 +63,7 @@ public class FileController {
     }
 
     /**
-     * 文件下载接口   http://localhost:9090/file/{fileUUID}
+     * 文件下载接口   http://localhost/file/{fileUUID}
      *
      * @param fileUUID
      * @param response
