@@ -1,18 +1,20 @@
 package com.linmj.service;
 
+import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
+@Data
 public class KeyParameter {
     /*
      * 杆塔所有关键状态量
      * tower：杆塔号
      * K**_**: 关键参量
      */
-    private String tower;
+    private String towerName;
     public List<Double> keyParameterList = new ArrayList<Double>();
     // 基础单元
     /*
@@ -52,14 +54,14 @@ public class KeyParameter {
      * 14导地线损伤截面占总截面面积比例
      * 15导地线异物占总截面面积比例
      * 16导地线绝缘子破损、污秽、漏电情况
-     * 17管缆端子接头状态
-     * 18管缆端子表面温度
+     * 17OPGW光缆磨损、断股、漏油等
+     * 18OPGW光缆金具磨损、锈蚀等
      */
     private double k14_3_sunshang;
     private double k15_3_yiwu;
     private double k16_3_xiushi;
-    private double k17_3_gaunlanduangu;
-    private double k18_3_guanlanxiushi;
+    private double k17_3_guanglanduangu;
+    private double k18_3_guanglanxiushi;
 
     // 绝缘子单元
 //    19伞裙出现破损、老化、变硬
@@ -119,8 +121,11 @@ public class KeyParameter {
     private double k41_8_diushi;
     private double k42_8_songdong;
 
-    public KeyParameter(String tower, double k1_1_biaomian, double k2_1_qutu, double k3_1_baohu, double k4_1_laxiansheji, double k5_2_laxiansunshang, double k6_2_qingxiedu, double k7_2_duxinceng, double k8_2_luoshuan, double k9_2_tacai, double k10_2_tashen, double k11_2_ganding, double k12_2_liefeng, double k13_2_shuinigan, double k14_3_sunshang, double k15_3_yiwu, double k16_3_xiushi, double k17_3_gaunlanduangu, double k18_3_guanlanxiushi, double k19_4_sanqun, double k20_4_chaobiao, double k21_4_xinbang, double k22_4_yanmi, double k23_4_pianxiejiao, double k24_4_dianshi, double k25_4_hutao, double k26_4_tuoluo, double k27_4_zengshui, double k28_4_youmian, double k29_5_xinceng, double k30_5_guaban, double k31_5_duanlie, double k32_5_yajieguan, double k33_5_jiangebang, double k34_5_luoshuan, double k35_6_maishen, double k36_6_xiushi, double k37_7_jiaokuajuli, double k38_7_fangniao, double k39_7_baopo, double k40_8_tuwen, double k41_8_diushi, double k42_8_songdong) {
-        this.tower = tower;
+    public KeyParameter() {
+    }
+
+    public KeyParameter(String towerName, double k1_1_biaomian, double k2_1_qutu, double k3_1_baohu, double k4_1_laxiansheji, double k5_2_laxiansunshang, double k6_2_qingxiedu, double k7_2_duxinceng, double k8_2_luoshuan, double k9_2_tacai, double k10_2_tashen, double k11_2_ganding, double k12_2_liefeng, double k13_2_shuinigan, double k14_3_sunshang, double k15_3_yiwu, double k16_3_xiushi, double k17_3_guanglanduangu, double k18_3_guanglanxiushi, double k19_4_sanqun, double k20_4_chaobiao, double k21_4_xinbang, double k22_4_yanmi, double k23_4_pianxiejiao, double k24_4_dianshi, double k25_4_hutao, double k26_4_tuoluo, double k27_4_zengshui, double k28_4_youmian, double k29_5_xinceng, double k30_5_guaban, double k31_5_duanlie, double k32_5_yajieguan, double k33_5_jiangebang, double k34_5_luoshuan, double k35_6_maishen, double k36_6_xiushi, double k37_7_jiaokuajuli, double k38_7_fangniao, double k39_7_baopo, double k40_8_tuwen, double k41_8_diushi, double k42_8_songdong) {
+        this.towerName = towerName;
         this.k1_1_biaomian = k1_1_biaomian;
         this.k2_1_qutu = k2_1_qutu;
         this.k3_1_baohu = k3_1_baohu;
@@ -137,8 +142,8 @@ public class KeyParameter {
         this.k14_3_sunshang = k14_3_sunshang;
         this.k15_3_yiwu = k15_3_yiwu;
         this.k16_3_xiushi = k16_3_xiushi;
-        this.k17_3_gaunlanduangu = k17_3_gaunlanduangu;
-        this.k18_3_guanlanxiushi = k18_3_guanlanxiushi;
+        this.k17_3_guanglanduangu = k17_3_guanglanduangu;
+        this.k18_3_guanglanxiushi = k18_3_guanglanxiushi;
         this.k19_4_sanqun = k19_4_sanqun;
         this.k20_4_chaobiao = k20_4_chaobiao;
         this.k21_4_xinbang = k21_4_xinbang;
@@ -185,8 +190,8 @@ public class KeyParameter {
         this.keyParameterList.add(this.k14_3_sunshang);
         this.keyParameterList.add(this.k15_3_yiwu);
         this.keyParameterList.add(this.k16_3_xiushi);
-        this.keyParameterList.add(this.k17_3_gaunlanduangu);
-        this.keyParameterList.add(this.k18_3_guanlanxiushi);
+        this.keyParameterList.add(this.k17_3_guanglanduangu);
+        this.keyParameterList.add(this.k18_3_guanglanxiushi);
 
         this.keyParameterList.add(this.k19_4_sanqun);
         this.keyParameterList.add(this.k20_4_chaobiao);

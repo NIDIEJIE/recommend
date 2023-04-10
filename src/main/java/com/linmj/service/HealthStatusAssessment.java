@@ -1,5 +1,7 @@
 package com.linmj.service;
 
+import com.linmj.common.Code;
+import com.linmj.exception.ServiceException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -86,8 +88,7 @@ public class HealthStatusAssessment {
             double assess = 1 - failureRate;
             return assess;
         }else{
-            assert statusInfo!= null: "状态信息缺失！！";
-            return 0;
+            throw new ServiceException(Code.CODE_400, "参数错误");
         }
     }
 }
