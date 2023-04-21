@@ -33,6 +33,14 @@ public class UserController {
         User out = userService.login(user);
         return Result.success(out);
     }
+
+    //修改密码
+    @PostMapping("/password")   //
+    public Result password(@RequestBody UserPasswordDTO userPasswordDTO) {
+        userService.updatePassword(userPasswordDTO);
+        return Result.success();
+    }
+
     // 新增和修改
     @PostMapping
     public Integer save(@RequestBody User user) {
@@ -50,13 +58,5 @@ public class UserController {
     public Integer delete(@PathVariable Integer id) {
         return userMapper.deleteById(id);
     }
-
-    //修改密码
-    @PostMapping("/password")   //
-    public Result password(@RequestBody UserPasswordDTO userPasswordDTO) {
-        userService.updatePassword(userPasswordDTO);
-        return Result.success();
-    }
-
 
 }

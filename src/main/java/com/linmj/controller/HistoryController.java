@@ -32,8 +32,9 @@ public class HistoryController {
     // TODO 根据用户id查询所有分页历史记录
     @GetMapping("/page")
     public Map<String, Object> findPage(@RequestParam Integer pageNum,
-                                        @RequestParam Integer pageSize) {
-        return historyService.findPage(pageNum, pageSize);
+                                        @RequestParam Integer pageSize,
+                                        @RequestParam Integer id) {
+        return historyService.findPage(pageNum, pageSize, id);
     }
 
     //删除指定历史记录

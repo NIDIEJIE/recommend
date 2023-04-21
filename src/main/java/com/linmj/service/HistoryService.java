@@ -2,6 +2,7 @@ package com.linmj.service;
 
 import com.linmj.domain.History;
 import com.linmj.mapper.HistoryMapper;
+import com.linmj.mapper.StrategyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,8 @@ import java.util.Map;
 public class HistoryService {
     @Autowired
     private HistoryMapper historyMapper;
+    @Autowired
+    private StrategyMapper strategyMapper;
     public Integer insert(History history) {
         return historyMapper.insert(history);
     }
@@ -22,13 +25,16 @@ public class HistoryService {
     }
 
     public Integer deleteById(Integer id) {
-        return historyMapper.deleteById(id);
+        Integer strategyId = historyMapper.selectId(id);
+        historyMapper.deleteById(id);
+        strategyMapper.deleteById(strategyId);
+        return 1;
     }
 
-    public Map<String, Object> findPage(Integer pageNum, Integer pageSize) {
+    public Map<String, Object> findPage(Integer pageNum, Integer pageSize, Integer id) {
         pageNum = (pageNum - 1) * pageSize;
-        List<History> data = historyMapper.selectPage(pageNum, pageSize);
-        Integer total = historyMapper.selectTotal();
+        List<History> data = historyMapper.selectPage(pageNum, pageSize, id);
+        Integer total = historyMapper.selectTotal(id);
         Map<String, Object> res = new HashMap<>();
         res.put("data", data);
         res.put("total", total);

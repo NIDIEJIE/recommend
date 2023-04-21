@@ -19,10 +19,12 @@ public interface HistoryMapper extends BaseMapper<History> {
             " #{user_id})")
     int insert(History history);
 
-    @Select("SELECT * FROM history ORDER BY date DESC limit #{pageNum}, #{pageSize}")
-    List<History> selectPage(Integer pageNum, Integer pageSize);
+    @Select("SELECT * FROM history where user_id = #{id} ORDER BY date DESC limit #{pageNum}, #{pageSize}")
+    List<History> selectPage(Integer pageNum, Integer pageSize, Integer id);
 
-    @Select("select count(*) from history")
-    Integer selectTotal();
+    @Select("select count(*) from history where user_id = #{id}")
+    Integer selectTotal(Integer id);
 
+    @Select("select strategy_id from history where id = #{id}")
+    Integer selectId(Integer id);
 }

@@ -1,31 +1,33 @@
 package com.linmj.service;
 
 import com.linmj.common.Code;
+import com.linmj.common.LineStatus;
 import com.linmj.controller.dto.ParamDataItemSingleDTO;
 import com.linmj.controller.dto.ParamInputDTO;
 import com.linmj.controller.dto.ParamInputTowerItemDTO;
+import com.linmj.domain.History;
+import com.linmj.domain.Strategy;
 import com.linmj.exception.ServiceException;
+import com.linmj.mapper.HistoryMapper;
 import com.linmj.mapper.StrategyMapper;
-import com.linmj.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.sql.rowset.serial.SerialException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class StrategyService {
     @Autowired
     private StrategyMapper strategyMapper;
+    @Autowired
+    private HistoryMapper historyMapper;
 
-    public List<Integer> getChartData() {
-        Integer urgent = strategyMapper.getUrgentNum();
-        Integer serious = strategyMapper.getSeriousNum();
-        Integer notice = strategyMapper.getNoticeNum();
-        Integer normal = strategyMapper.getNormalNum();
+    public List<Integer> getChartData(Integer id) {
+        Integer urgent = strategyMapper.getUrgentNum(id);
+        Integer serious = strategyMapper.getSeriousNum(id);
+        Integer notice = strategyMapper.getNoticeNum(id);
+        Integer normal = strategyMapper.getNormalNum(id);
         List<Integer> data = new ArrayList<Integer>();
         data.add(urgent);
         data.add(serious);
@@ -39,6 +41,9 @@ public class StrategyService {
             throw new ServiceException(Code.CODE_400, "无具体线路名");
         HealthStatusAssessment healthStatusAssessment = new HealthStatusAssessment(data.getTransmissionLineName());
         List<List<Double>> statusInfo = new ArrayList<>();
+        //具体杆塔的检修策略
+        String detail = "";
+        //对每一个杆塔进行处理
         for(ParamInputTowerItemDTO item: data.getTowerData()){
             KeyParameter keyParameter = new KeyParameter();
             keyParameter.setTowerName(item.getTowerName());
@@ -174,12 +179,40 @@ public class StrategyService {
                 }
             }
             keyParameter.getList();
+            detail += keyParameter.getDetailStr();
             statusInfo.add(keyParameter.keyParameterList);
         }
         System.out.println("这是statusInfo:" + statusInfo);
         //线路状态评估值
         double assess =  healthStatusAssessment.assessment(statusInfo);
         System.out.println(assess);
-        return "xxx";
+        String status, statusStr;
+        if(assess < 0.90){
+            status = LineStatus.URGENT;
+            statusStr = LineStatus.URGENT_STR;
+        } else if (assess < 0.95 && assess >= 0.90) {
+            status = LineStatus.SERIOUS;
+            statusStr = LineStatus.SERIOUS_STR;
+        }else if (assess < 0.99 && assess >= 0.95) {
+            status = LineStatus.NOTICE;
+            statusStr = LineStatus.NOTICE_STR;
+        }else {
+            status = LineStatus.NORMAL;
+            statusStr = LineStatus.NORMAL_STR;
+        }
+        String general = data.getTransmissionLineName() + "线路为" + status + "，根据状态检修策略，对" + status +
+                "的线路" + statusStr + "，结合各杆塔单元关键参量的缺陷，具体检修方案如下:\n";
+        String res = general + detail;
+        Strategy strategy = new Strategy();
+        strategy.setUser_id(data.getUser_id());
+        strategy.setStrategy(res);
+        strategy.setStatus_value(assess);
+        strategyMapper.insert(strategy);
+        History history = new History();
+        history.setStrategy_id(strategy.getId());
+        history.setLinename(data.getTransmissionLineName());
+        history.setUser_id(data.getUser_id());
+        historyMapper.insert(history);
+        return res;
     }
 }
