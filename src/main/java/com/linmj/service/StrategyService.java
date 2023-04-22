@@ -201,7 +201,7 @@ public class StrategyService {
             statusStr = LineStatus.NORMAL_STR;
         }
         String general = data.getTransmissionLineName() + "线路为" + status + "，根据状态检修策略，对" + status +
-                "的线路" + statusStr + "，结合各杆塔单元关键参量的缺陷，具体检修方案如下:\n";
+                "的线路" + statusStr + "，结合各杆塔单元关键参量的缺陷，具体检修方案如下:" + "\n";
         String res = general + detail;
         Strategy strategy = new Strategy();
         strategy.setUser_id(data.getUser_id());

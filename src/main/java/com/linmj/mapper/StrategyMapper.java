@@ -19,4 +19,7 @@ public interface StrategyMapper {
 
     @Delete("delete from strategy where id = #{strategy_id}")
     void deleteById(Integer strategy_id);
+
+    @Select("SELECT strategy FROM strategy WHERE id = #{strId}")
+    String selectById(Integer strId);
 }

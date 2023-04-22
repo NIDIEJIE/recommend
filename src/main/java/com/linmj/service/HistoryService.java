@@ -41,4 +41,9 @@ public class HistoryService {
         return res;
     }
 
+    public String  getById(Integer id) {
+        Integer strId = historyMapper.selectId(id);
+        String res = strategyMapper.selectById(strId);
+        return res;
+    }
 }

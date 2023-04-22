@@ -1,5 +1,6 @@
 package com.linmj.controller;
 
+import com.linmj.common.Result;
 import com.linmj.domain.History;
 import com.linmj.service.HistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,10 @@ public class HistoryController {
     }
 
     //查询所有数据
-    @GetMapping
-    public List<History> getAll(){
-        return historyService.getAll();
+    @GetMapping("/{id}")
+    public Result getById(@PathVariable Integer id){
+        String res = historyService.getById(id);
+        return Result.success(res);
     }
 
     // 分页查询
